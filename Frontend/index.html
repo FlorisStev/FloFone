@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onze producten</title>
+    <link rel="stylesheet" href="css/mainStyle.css">
+</head>
+<body>
+    <header>
+        <nav id="nav-links">
+            <a href="index.html">Producten</a>
+            <a href="cart.html">Winkelwagen</a>
+        </nav>
+    </header>
+    <main class="with-sidebar">
+        <div class="sidebar">
+            <div class="logo-container">
+                <img src="resources/logo.png" alt="Flofone voor ouderen" class="logo">
+            </div>
+            <h2>Categorieën</h2>
+            <ul>
+                <li><a href="javascript:void(0)" onclick="loadProducts('')">Alle</a></li>
+                <li><a href="javascript:void(0)" onclick="loadProducts('Accessories')">Accessoires</a></li>
+                <li><a href="javascript:void(0)" onclick="loadProducts('Cables')">Kabels</a></li>
+                <li><a href="javascript:void(0)" onclick="loadProducts('Cases')">Hoesjes</a></li>
+                <li><a href="javascript:void(0)" onclick="loadProducts('Phones')">Telefoons</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1>Onze producten</h1>
+            <div class="product-container" id="product-container"></div>
+        </div>
+    </main>
+    <script src="javascripts/auth.js"></script>
+    <script src="javascripts/productScript.js"></script>
+    <script src="javascripts/main.js"></script>
+    <script src="javascripts/config.js"></script>
+
+</body>
+</html>

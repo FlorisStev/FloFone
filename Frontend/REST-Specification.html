@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <link rel="stylesheet" href="css/apiDocumentationStyle.css">
+</head>
+<body>
+    <div class="container">
+        <h1>API Documentation</h1>
+        <p>Base URL: <code>"http://localhost:3000/api"</code></p>
+
+        <h2>Authentication Middleware</h2>
+        <p><strong>JWT Authentication:</strong> All endpoints that require authentication must include a valid JWT token in the <code>Authorization</code> header.</p>
+        <p><strong>Admin Check:</strong> Some endpoints require the user to be an admin.</p>
+
+        <h2>User Endpoints</h2>
+
+        <div class="endpoint">
+            <h3>Register a New User</h3>
+            <p><span class="method">POST</span> <code>/register</code></p>
+            <p><strong>Description:</strong> Registers a new user.</p>
+            <pre><code>Request Body:
+{
+    "name": "exa mple",
+    "email": "exa.mple@example.com",
+    "password": "password123"
+}
+Response:
+201 Created
+{
+    "message": "User registered successfully!"
+}
+400 Bad Request
+{
+    "error": "Invalid request body"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>User Login</h3>
+            <p><span class="method">POST</span> <code>/login</code></p>
+            <p><strong>Description:</strong> Authenticates a user and returns a JWT token.</p>
+            <pre><code>Request Body:
+{
+    "email": "exa.mple@example.com",
+    "password": "password123"
+}
+Response:
+200 OK
+{
+    "token": "jwt_token"
+}
+400 Bad Request
+{
+    "error": "Invalid request body"
+}
+401 Unauthorized
+{
+    "error": "Invalid password"
+}
+404 Not Found
+{
+    "error": "User not found"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Get Logged-In User's Info</h3>
+            <p><span class="method">GET</span> <code>/user</code></p>
+            <p><strong>Description:</strong> Retrieves the logged-in user's information.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+{
+    "id": 1,
+    "name": "exa Mple",
+    "email": "exa.mple@example.com",
+    "isAdmin": false
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Get User Details and Orders</h3>
+            <p><span class="method">GET</span> <code>/user/:id</code></p>
+            <p><strong>Description:</strong> Retrieves the details of a specific user and their orders. Admins only.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+{
+    "id": 1,
+    "name": "exa Mple",
+    "email": "exa.mple@example.com",
+    "isAdmin": false,
+    "orders": [
+        {
+            "id": 1,
+            "productNames": "Product1,Product2",
+            "orderDate": "2024-06-01T12:34:56.789Z"
+        }
+    ]
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+404 Not Found
+{
+    "error": "User not found"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Update User's Admin Status</h3>
+            <p><span class="method">PATCH</span> <code>/user/:id/admin</code></p>
+            <p><strong>Description:</strong> Updates the admin status of a user. Admins only.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Request Body:
+{
+    "isAdmin": true
+}
+Response:
+204 No Content
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Get All Users</h3>
+            <p><span class="method">GET</span> <code>/users</code></p>
+            <p><strong>Description:</strong> Retrieves a list of all users. Admins only.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+[
+    {
+        "id": 1,
+        "name": "exa Mple",
+        "email": "exa.mple@example.com",
+        "isAdmin": false
+    }
+]
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <h2>Product Endpoints</h2>
+
+        <div class="endpoint">
+            <h3>Get All Products</h3>
+            <p><span class="method">GET</span> <code>/products</code></p>
+            <p><strong>Description:</strong> Retrieves a list of all products with optional category filtering.</p>
+            <pre><code>Query Parameters:
+category (optional)
+Response:
+200 OK
+[
+    {
+        "id": 1,
+        "name": "Product1",
+        "description": "Description1",
+        "price": 99.99,
+        "category": "Category1",
+        "image": "image_url"
+    }
+]
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <h2>Cart Endpoints</h2>
+
+        <div class="endpoint">
+            <h3>Add Product to Cart</h3>
+            <p><span class="method">POST</span> <code>/cart</code></p>
+            <p><strong>Description:</strong> Adds a product to the user's cart.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Request Body:
+{
+    "productId": 1
+}
+Response:
+201 Created
+{
+    "message": "Product added to cart."
+}
+200 OK
+{
+    "message": "Product quantity updated in cart."
+}
+400 Bad Request
+{
+    "error": "Invalid request body"
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Get Cart Items</h3>
+            <p><span class="method">GET</span> <code>/cart</code></p>
+            <p><strong>Description:</strong> Retrieves the items in the user's cart.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+[
+    {
+        "id": 1,
+        "quantity": 2,
+        "name": "Product1",
+        "price": 99.99,
+        "image": "image_url"
+    }
+]
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Remove Product from Cart</h3>
+            <p><span class="method">DELETE</span> <code>/cart/:id</code></p>
+            <p><strong>Description:</strong> Removes a product from the user's cart.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+{
+    "message": "Product removed from cart"
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+404 Not Found
+{
+    "error": "Item not found in cart"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <h2>Order Endpoints</h2>
+
+        <div class="endpoint">
+            <h3>Submit a New Order</h3>
+            <p><span class="method">POST</span> <code>/orders</code></p>
+            <p><strong>Description:</strong> Submits a new order for the logged-in user.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Request Body:
+{
+    "address": "123 Street Name",
+    "city": "City",
+    "state": "State",
+    "postcode": "12345",
+    "country": "Country"
+}
+Response:
+201 Created
+{
+    "message": "Order placed successfully",
+    "orderId": 1
+}
+400 Bad Request
+{
+    "error": "Invalid request body"
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Get All Orders</h3>
+            <p><span class="method">GET</span> <code>/orders</code></p>
+            <p><strong>Description:</strong> Retrieves all orders with detailed information for the admin dashboard.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+[
+    {
+        "orderId": 1,
+        "customerName": "exa Mple",
+        "customerEmail": "exa.mple@example.com",
+        "productNames": "Product1,Product2",
+        "totalAmount": 199.98,
+        "orderDate": "2023-06-01T12:34:56.789Z"
+    }
+]
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Get Specific Order Details</h3>
+            <p><span class="method">GET</span> <code>/order/:orderId</code></p>
+            <p><strong>Description:</strong> Retrieves the details of a specific order. Admins only.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+{
+    "orderId": 1,
+    "customerName": "exa Mple",
+    "customerEmail": "exa.mple@example.com",
+    "orderDate": "2023-06-01T12:34:56.789Z",
+    "address": "123 Street Name",
+    "city": "City",
+    "state": "State",
+    "postcode": "12345",
+    "country": "Country",
+    "products": [
+        {
+            "name": "Product1",
+            "price": 99.99,
+            "quantity": 1
+        },
+        {
+            "name": "Product2",
+            "price": 99.99,
+            "quantity": 1
+        }
+    ]
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+404 Not Found
+{
+    "error": "Order not found"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Get All Orders for a Specific User</h3>
+            <p><span class="method">GET</span> <code>/user/:userId/orders</code></p>
+            <p><strong>Description:</strong> Retrieves all orders for a specific user. Admins only.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+[
+    {
+        "orderId": 1,
+        "customerName": "exa Mple",
+        "customerEmail": "exa.mple@example.com",
+        "orderDate": "2023-06-01T12:34:56.789Z",
+        "address": "123 Street Name",
+        "city": "City",
+        "state": "State",
+        "postcode": "12345",
+        "country": "Country",
+        "products": [
+            {
+                "name": "Product1",
+                "price": 99.99,
+                "quantity": 1
+            },
+            {
+                "name": "Product2",
+                "price": 99.99,
+                "quantity": 1
+            }
+        ]
+    }
+]
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Update an Order</h3>
+            <p><span class="method">PUT</span> <code>/order/:orderId</code></p>
+            <p><strong>Description:</strong> Updates an existing order. Admins only.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Request Body:
+{
+    "address": "456 New Address",
+    "city": "New City",
+    "state": "New State",
+    "postcode": "67890",
+    "country": "New Country",
+    "products": [
+        {
+            "name": "Updated Product1",
+            "quantity": 2
+        }
+    ]
+}
+Response:
+200 OK
+{
+    "message": "Order updated successfully"
+}
+400 Bad Request
+{
+    "error": "Invalid request body"
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+404 Not Found
+{
+    "error": "Order not found"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <div class="endpoint">
+            <h3>Delete an Order</h3>
+            <p><span class="method">DELETE</span> <code>/order/:orderId</code></p>
+            <p><strong>Description:</strong> Deletes an existing order. Admins only.</p>
+            <pre><code>Headers:
+Authorization: Bearer jwt_token
+Response:
+200 OK
+{
+    "message": "Order deleted successfully"
+}
+401 Unauthorized
+{
+    "error": "Unauthorized"
+}
+403 Forbidden
+{
+    "error": "Access denied. Admins only."
+}
+404 Not Found
+{
+    "error": "Order not found"
+}
+500 Internal Server Error
+{
+    "error": "Detailed error message"
+}</code></pre>
+        </div>
+
+        <h2>Token Management</h2>
+
+        <div class="endpoint">
+            <h3>Refresh JWT Token</h3>
+            <p><span class="method">POST</span> <code>/refresh-token</code></p>
+            <p><strong>Description:</strong> Refreshes an expired JWT token.</p>
+            <pre><code>Request Body:
+{
+    "token": "expired_jwt_token"
+}
+Response:
+200 OK
+{
+    "token": "new_jwt_token"
+}
+400 Bad Request
+{
+    "error": "Invalid request body"
+}
+401 Unauthorized
+{
+    "error": "Token is required"
+}
+403 Forbidden
+{
+    "error": "Invalid token"
+}</code></pre>
+        </div>
+
+        <h2>Start the Server</h2>
+        <p><strong>Start Command:</strong> <code>node server.js</code></p>
+        <p><strong>Description:</strong> Initializes and starts the server on the specified port.</p>
+        <pre><code>Console Output:
+Server is running on http://localhost:3000</code></pre>
+    </div>
+</body>
+</html>

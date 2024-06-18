@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/mainStyle.css">
+</head>
+<body>
+    <main>
+        <div class="login-container">
+            <h1>Inloggen</h1>
+            <p>Log in als klant van Flofone</p>
+            <form id="login-form">
+                <label for="email">E-mailadres</label>
+                <input type="text" id="email" name="email" placeholder="Voer uw E-mailadres in" required>
+
+                <label for="password">Wachtwoord</label>
+                <div style="position: relative;">
+                    <input type="password" id="password" name="password" placeholder="Voer uw wachtwoord in" required>
+                    <span class="show-password" onclick="togglePassword()">laat zien</span>
+                </div>
+
+                <p>Heeft u nog geen account? <a href="register.html">Maak hier uw account aan</a></p>
+                <button type="submit">Inloggen</button>
+            </form>
+        </div>
+    </main>
+    
+    <script src="javascripts/auth.js"></script>
+    <script src="javascripts/login.js"></script>
+    <script src="javascripts/config.js"></script>
+
+</body>
+</html>

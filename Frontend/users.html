@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gebruikers</title>
+    <link rel="stylesheet" href="css/mainStyle.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="javascript:logoutUser()">Uitloggen</a>
+        </nav>
+    </header>
+    <main class="with-sidebar">
+        <div class="sidebar">
+            <div class="logo-container">
+                <img src="resources/logo.png" alt="Flofone voor ouderen" class="logo">
+            </div>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="users.html">Gebruikers</a></li>
+                <li><a href="index.html">Producten</a></li>
+            </ul>
+        </div>
+        <div class="content">
+            <h1>Gebruikers</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Gebruikersnaam</th>
+                        <th>Email</th>
+                        <th>Admin</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- Dynamically filled -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <script src="javascripts/users.js"></script>
+    <script src="javascripts/config.js"></script>
+</body>
+</html>
