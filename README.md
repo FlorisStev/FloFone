@@ -17,7 +17,7 @@ Omdat nieuwe gebruikers standaard geen adminrechten krijgen, hebben we alvast ee
 
 # **Installatie**
 **1. Clone de repository:**  
-```git clone https://github.com/jouw-username/flofonesite.git```  
+```git clone https://github.com/FlorisStev/FloFone.git```  
 **2. Navigeer naar de directory:**  
 ```cd flofonesite```  
 **3. Installeer de vereiste pakketten:**   
